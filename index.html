@@ -14,7 +14,6 @@
 
     var ball;
 
-
     function preload() {
       // SHOW_ALL scales the canvas but keeps the aspect ratio the same.
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -26,11 +25,16 @@
       // Load ball sprite.
       game.load.image('ball', 'img/ball.png');
     }
+
     function create() {
       // Add ball sprite to the canvas.
       ball = game.add.sprite(50, 50, 'ball');
     }
-    function update() {}
+
+    function update() {
+      ball.x += 1;
+      ball.y += 1;
+    }
 </script>
 </body>
 </html>
