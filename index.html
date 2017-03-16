@@ -11,7 +11,15 @@
     var game = new Phaser.Game(480, 320, Phaser.AUTO, null, {
       preload: preload, create: create, update: update
     });
-    function preload() {}
+    function preload() {
+      // SHOW_ALL scales the canvas but keeps the aspect ratio the same.
+      game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      // Centers the canvas horizontally and vertically.
+      game.scale.pageALignHorizontally = true;
+      game.scale.pageAlignVertically = true;
+      // Add a background color [default was black]
+      game.stage.backgroundColor = '#eee';
+    }
     function create() {}
     function update() {}
 </script>
