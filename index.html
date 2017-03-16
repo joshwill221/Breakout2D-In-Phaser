@@ -11,16 +11,25 @@
     var game = new Phaser.Game(480, 320, Phaser.AUTO, null, {
       preload: preload, create: create, update: update
     });
+
+    var ball;
+
+
     function preload() {
       // SHOW_ALL scales the canvas but keeps the aspect ratio the same.
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       // Centers the canvas horizontally and vertically.
       game.scale.pageALignHorizontally = true;
       game.scale.pageAlignVertically = true;
-      // Add a background color [default was black]
+      // Add a background color [default was black].
       game.stage.backgroundColor = '#eee';
+      // Load ball sprite.
+      game.load.image('ball', 'img/ball.png');
     }
-    function create() {}
+    function create() {
+      // Add ball sprite to the canvas.
+      ball = game.add.sprite(50, 50, 'ball');
+    }
     function update() {}
 </script>
 </body>
