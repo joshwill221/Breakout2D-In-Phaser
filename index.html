@@ -31,6 +31,11 @@
       // Add ball sprite to the canvas.
       ball = game.add.sprite(50, 50, 'ball');
       game.physics.enable(ball, Phaser.Physics.ARCADE);
+      // Stop ball from moving outside the canvas.
+      ball.body.collideWorldBounds = true;
+      // Make the ball bounce off walls.
+      ball.body.bounce.set(1);
+      // Add velocity to the ball.
       ball.body.velocity.set(150, 150);
     }
 
