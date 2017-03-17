@@ -30,16 +30,22 @@
 
     function create() {
       game.physics.startSystem(Phaser.Physics.ARCADE);
+      game.physics.arcade.checkCollision.down = false;
       // Add ball sprite to the canvas.
       ball = game.add.sprite(game.world.width*0.5, game.world.height-25, 'ball');
       ball.anchor.set(0.5);
       game.physics.enable(ball, Phaser.Physics.ARCADE);
+      // Add velocity to the ball.
+      ball.body.velocity.set(150, -150);
       // Stop ball from moving outside the canvas.
       ball.body.collideWorldBounds = true;
       // Make the ball bounce off walls.
       ball.body.bounce.set(1);
-      // Add velocity to the ball.
-      ball.body.velocity.set(150, -150);
+      ball.checkWorldBounds = true;
+      ball.events.onOutOfBounds.add(function() {
+        alert('Game Over!');
+        location.reload();
+      }, this);
 
       paddle = game.add.sprite(game.world.width*0.5, game.world.height-5, 'paddle');
       // Set the paddle's anchor to the middle.
