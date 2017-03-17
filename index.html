@@ -17,55 +17,59 @@
     var bricks;
     var newBrick;
     var brickinfo;
+    var scoreText;
+    var score = 0;
 
     function preload() {
-        // SHOW_ALL scales the canvas but keeps the aspect ratio the same.
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        // Centers the canvas horizontally and vertically.
-        game.scale.pageALignHorizontally = true;
-        game.scale.pageAlignVertically = true;
-        // Add a background color [default was black].
-        game.stage.backgroundColor = '#eee';
-        // Load in sprites.
-        game.load.image('ball', 'img/ball.png');
-        game.load.image('paddle', 'img/paddle.png');
-        game.load.image('brick', 'img/brick.png');
+      // SHOW_ALL scales the canvas but keeps the aspect ratio the same.
+      game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      // Centers the canvas horizontally and vertically.
+      game.scale.pageALignHorizontally = true;
+      game.scale.pageAlignVertically = true;
+      // Add a background color [default was black].
+      game.stage.backgroundColor = '#eee';
+      // Load in sprites.
+      game.load.image('ball', 'img/ball.png');
+      game.load.image('paddle', 'img/paddle.png');
+      game.load.image('brick', 'img/brick.png');
     }
 
     function create() {
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.physics.arcade.checkCollision.down = false;
-        // Add ball sprite to the canvas.
-        ball = game.add.sprite(game.world.width*0.5, game.world.height-25, 'ball');
-        ball.anchor.set(0.5);
-        game.physics.enable(ball, Phaser.Physics.ARCADE);
-        // Add velocity to the ball.
-        ball.body.velocity.set(150, -150);
-        // Stop ball from moving outside the canvas.
-        ball.body.collideWorldBounds = true;
-        // Make the ball bounce off walls.
-        ball.body.bounce.set(1);
-        ball.checkWorldBounds = true;
-        ball.events.onOutOfBounds.add(function() {
-            alert('Game Over!');
-            location.reload();
-        }, this);
+      game.physics.startSystem(Phaser.Physics.ARCADE);
+      game.physics.arcade.checkCollision.down = false;
+      // Add ball sprite to the canvas.
+      ball = game.add.sprite(game.world.width*0.5, game.world.height-25, 'ball');
+      ball.anchor.set(0.5);
+      game.physics.enable(ball, Phaser.Physics.ARCADE);
+      // Add velocity to the ball.
+      ball.body.velocity.set(150, -150);
+      // Stop ball from moving outside the canvas.
+      ball.body.collideWorldBounds = true;
+      // Make the ball bounce off walls.
+      ball.body.bounce.set(1);
+      ball.checkWorldBounds = true;
+      ball.events.onOutOfBounds.add(function() {
+          alert('Game Over!');
+          location.reload();
+      }, this);
 
-        paddle = game.add.sprite(game.world.width*0.5, game.world.height-5, 'paddle');
-        // Set the paddle's anchor to the middle.
-        paddle.anchor.set(0.5, 1);
-        game.physics.enable(paddle, Phaser.Physics.ARCADE);
-        // Stop paddle from moving when hit.
-        paddle.body.immovable = true;
+      paddle = game.add.sprite(game.world.width*0.5, game.world.height-5, 'paddle');
+      // Set the paddle's anchor to the middle.
+      paddle.anchor.set(0.5, 1);
+      game.physics.enable(paddle, Phaser.Physics.ARCADE);
+      // Stop paddle from moving when hit.
+      paddle.body.immovable = true;
 
-        initBricks();
+      initBricks();
+
+      scoreText = game.add.text(5, 5, 'Points: 0', { font: '18px Arial', fill: '#0095DD' });
     }
 
     function update() {
-        // Check for a collision every frame.
-        game.physics.arcade.collide(ball, paddle);
-        game.physics.arcade.collide(ball, bricks, ballHitBrick);
-        paddle.x = game.input.x || game.world.width * 0.5;
+      // Check for a collision every frame.
+      game.physics.arcade.collide(ball, paddle);
+      game.physics.arcade.collide(ball, bricks, ballHitBrick);
+      paddle.x = game.input.x || game.world.width * 0.5;
     }
 
     function initBricks() {
@@ -99,6 +103,8 @@
 
     function ballHitBrick(ball, brick) {
       brick.kill();
+      score += 10;
+      scoreText.setText('Points: ' + score);
     }
 </script>
 </body>
