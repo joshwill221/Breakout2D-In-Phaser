@@ -169,6 +169,8 @@
     
     function ballHitPaddle(ball, paddle) {
         ball.animations.play('wobble');
+        // Randomness to the bounce depending on which side it hits.
+        ball.body.velocity.x = -1 * 5 * (paddle.x - ball.x);
     }
     
     function startGame() {
