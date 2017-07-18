@@ -22,6 +22,8 @@
     var lives = 3;
     var livesText;
     var lifeLostText;
+    var playing = false;
+    var startButton;
 
     function preload() {
         // SHOW_ALL scales the canvas but keeps the aspect ratio the same.
@@ -37,6 +39,8 @@
         game.load.image('brick', 'img/brick.png');
         // 20px width and height to split spritesheet into sprites.
         game.load.spritesheet('ball', 'img/wobble.png', 20, 20);
+        // a single button frame is 120px x 40px.
+        game.load.spritesheet('button', 'img/button.png', 120, 40);
     }
 
     function create() {
@@ -52,8 +56,6 @@
         
         ball.anchor.set(0.5);
         game.physics.enable(ball, Phaser.Physics.ARCADE);
-        // Add velocity to the ball.
-        ball.body.velocity.set(150, -150);
         // Stop ball from moving outside the canvas.
         ball.body.collideWorldBounds = true;
         // Make the ball bounce off walls.
@@ -78,13 +80,18 @@
         lifeLostText = game.add.text(game.world.width*0.5, game.world.height*0.5, 'Life lost, click to continue', textStyle);
         lifeLostText.anchor.set(0.5);
         lifeLostText.visible = false;
+        
+        startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
+        startButton.anchor.set(0.5);
     }
 
     function update() {
       // Check for a collision every frame.
       game.physics.arcade.collide(ball, paddle, ballHitPaddle);
       game.physics.arcade.collide(ball, bricks, ballHitBrick);
-      paddle.x = game.input.x || game.world.width * 0.5;
+      if(playing) {
+          paddle.x = game.input.x || game.world.width * 0.5;
+      }
     }
 
     function initBricks() {
@@ -117,7 +124,7 @@
     }
 
     function ballHitBrick(ball, brick) {
-        //ball.animations.play('wobble');
+        ball.animations.play('wobble');
         
         var killTween = game.add.tween(brick.scale);
         killTween.to({x:0,y:0}, 200, Phaser.Easing.Linear.None);
@@ -162,6 +169,12 @@
     
     function ballHitPaddle(ball, paddle) {
         ball.animations.play('wobble');
+    }
+    
+    function startGame() {
+        startButton.destroy();
+        ball.body.velocity.set(150, -150);
+        playing = true;
     }
 </script>
 </body>
